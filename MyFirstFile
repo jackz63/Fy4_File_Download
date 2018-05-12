@@ -1,0 +1,206 @@
+<Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:oneself="clr-namespace:WpfApplication1"
+        
+        Title="MainWindow" SizeToContent="Height" Name="mWin"><!-- Deactivated="mWin_Deactivated" Activated="mWin_Activated"-->
+        <!--"presentation"包含的程序集有：system.windows和其automation、controls、controls.primitives、data、documents、
+         forms.integration、ink、input、media、media.animation、media.effects、media.image、media.media3D、media.textformatting、
+         navigation、shapes。所以，一般情况下都是够用了-->
+
+    <Grid>
+
+    <Grid x:Name="grid1" ShowGridLines="True" UseLayoutRounding="True" Grid.IsSharedSizeScope="True" Loaded="grid1_Loaded"><!-- Visibility="Hidden"-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Name="stpTestCmd" Grid.Row="0">
+            <StackPanel.CommandBindings>
+                <CommandBinding Command="ApplicationCommands.SelectAll" Executed="SelectAll_Excuted" CanExecute="SelectAll_CanExecute"></CommandBinding>
+                <CommandBinding Command="ApplicationCommands.Delete" Executed="Delete_Excuted" CanExecute="Delete_CanExecute"></CommandBinding>
+            </StackPanel.CommandBindings>
+
+            <Menu Name="tstCmdMenu">
+                <MenuItem Name="tstCmd1" Command="ApplicationCommands.SelectAll" CommandParameter="SelectAll" CommandTarget="{Binding ElementName=txtQuestion}"></MenuItem>
+                <MenuItem Name="tstCmd2" Command="ApplicationCommands.Delete" CommandParameter="Delete" CommandTarget="{Binding ElementName=txtQuestion}"></MenuItem>
+            </Menu>
+                <TextBox x:Name="txtQuestion" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+        	        Margin="20" FontFamily="Verdana" TextWrapping="Wrap" FontSize="{Binding Value, ElementName=tstSlider, Mode=OneWay}"
+        	        MinLines="2" MaxLines="4" Foreground="Green" VerticalScrollBarVisibility="Auto" MouseDown="txtQuestion_MouseDown"
+                    Text="[Place Question here.]" GotFocus="txtQuestion_GotFocus" LostFocus="txtQuestion_LostFocus">
+                </TextBox>
+        </StackPanel>
+        <TabControl Margin="3" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <TabItem Header="带弹出提示的按钮">
+                <Button Name="cmdAnswer" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                        Margin="20,20,0,37" MinWidth="127" MinHeight="23" Click="cmdAnswer_Click" Height="111" Width="198">
+                    <StackPanel>
+                        <TextBlock Margin="3">Ask <Run TextDecorations="Underline" MouseEnter="Run_MouseEnter" MouseLeave="Run_MouseEnter">the</Run> mainwindow </TextBlock>
+                        <Popup Name="popLink" StaysOpen="False" Placement="Mouse" MaxWidth="100" PopupAnimation="Slide" AllowsTransparency="True" >
+                            <Border BorderBrush="Beige" BorderThickness="2" Background="White">
+                                <TextBlock Margin="10" TextWrapping="Wrap">试一下弹出提示</TextBlock>
+                            </Border>
+                        </Popup>
+                                <Image Source="Images/xswl.gif" Stretch="None" Height="86" Width="191" />
+                    </StackPanel>
+                </Button>
+            </TabItem>
+            <TabItem Header="Calendar日历">
+                <Calendar DisplayDateStart="2014/01/01" DisplayDateEnd="2014/06/30" DisplayMode="Month" FirstDayOfWeek="Sunday" 
+                            IsTodayHighlighted="True">
+                        
+                </Calendar>
+            </TabItem>
+            <TabItem Header="Picker日历">
+                <DatePicker DisplayDateStart="2014/01/01" DisplayDateEnd="2014/06/30" FirstDayOfWeek="Sunday" 
+                            IsTodayHighlighted="True" IsDropDownOpen="False" SelectedDateFormat="Long">
+                        
+                </DatePicker>
+            </TabItem>
+        </TabControl>
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1">
+            <ComboBox Name="listComb" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="3" MinWidth="120" SelectionChanged="listComb_SelectionChanged">
+<!--                <ComboBoxItem>
+                    <sys:DateTime>2/3/2014 15:32</sys:DateTime>
+                    </ComboBoxItem>
+                <ComboBoxItem>
+                    <Image Source="D:\测试图list.jpg" Stretch="None" Width="120" Height="30"></Image>
+                </ComboBoxItem>                                     -->
+            </ComboBox>
+        </StackPanel>
+        <Border Margin="5" Padding="5" Background="LightYellow" BorderBrush="SteelBlue" 
+                BorderThickness="3" CornerRadius="20" VerticalAlignment="Center" Grid.Row="2" MouseUp="grid1_MouseUp">
+            <TextBox Name="txtAnswer" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                Margin="20" TextWrapping="Wrap" FontFamily="Verdana" FontSize="24" 
+                Foreground="Green" MouseUp="grid1_MouseUp" KeyUp="txtAnswer_KeyUp" PreviewKeyDown="txtAnswer_KeyUp"
+                KeyDown="txtAnswer_KeyUp" PreviewTextInput="txtAnswer_TextInput" TextInput="txtAnswer_TextInput"
+                PreviewKeyUp="txtAnswer_KeyUp" AllowDrop="True" Drop="txtAnswer_Drop" ToolTip="{Binding RelativeSource={RelativeSource Self},Path=Name}">
+                [Answer will appear here.]
+            </TextBox>
+        </Border>
+
+        <WrapPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="3" Grid.Row="1" MinHeight="56" MinWidth="134">
+            <ListBox Name="txtList" VerticalAlignment="Top" HorizontalAlignment="Right" 
+                     Margin="0,0,13,20" Foreground="Red" SelectionChanged="txtList_SelectionChanged">
+                <ListBoxItem>
+                    <sys:DateTime>02/14/2014 01:10 pm</sys:DateTime>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <sys:DateTime>11/08/2013 07:50 am</sys:DateTime>
+                </ListBoxItem>
+                <ListBoxItem >
+                    <sys:DateTime>03/23/2014 10:30 am</sys:DateTime>
+                </ListBoxItem>
+                    <!--<StackPanel>-->
+                        <Image Source="D:\测试图list.jpg" Stretch="None" Width="120" Height="30"></Image>
+                        <Label HorizontalAlignment="Center" Height="30">测试图</Label>
+                    <!--</StackPanel>-->
+            </ListBox>
+        </WrapPanel>
+        <ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="2" CanContentScroll="True">
+            <StackPanel MaxHeight="100">
+                <Label HorizontalAlignment="Center" Foreground="White" Target="{Binding ElementName=txtAnswer}">_A Button Stack</Label>
+                <Button Name="bt1" MaxWidth="200" MinWidth="100" HorizontalAlignment="Left" Margin="2" Content="Button 01" Click="Button_Click"/>
+                <Button Name="bt2" MaxWidth="200" MinWidth="100" HorizontalAlignment="Right" Margin="2" Content="Button 02" Click="Button_Click"
+                    IsDefault="True"/>
+                <Button MinWidth="100" MaxWidth="200" Margin="2" Content="Button 03" />
+                <Button MinWidth="100" MaxWidth="200" Margin="2" Content="Button 04" />
+                <Button MinWidth="100" MaxWidth="200" Margin="2" Content="Button 05" />
+            </StackPanel>
+        </ScrollViewer>
+        <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Width="5" VerticalAlignment="Stretch" 
+                      HorizontalAlignment="Center" ShowsPreview="True" >
+        </GridSplitter>
+        <Canvas Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Button Canvas.Top="10" Canvas.Left="10">(10,10)</Button>
+            <Button Canvas.Top="40" Canvas.Left="10">(40,10)</Button>
+            <GroupBox Margin="5" Canvas.Top="60">
+                <StackPanel>
+                    <RadioButton>第一组1</RadioButton>
+                    <RadioButton>第一组2</RadioButton>
+                </StackPanel>
+            </GroupBox>
+            <!--<GroupBox Margin="5" Canvas.Top="100">-->
+                <StackPanel Margin="5" Canvas.Top="100">
+                    <RadioButton>第二组1</RadioButton>
+                    <RadioButton>第二组2</RadioButton>
+                </StackPanel>
+            <!--</GroupBox>-->
+        </Canvas>
+        <TabControl Margin="3" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <TabItem Header="真谛假滴">
+                <InkCanvas Name="tstInkcanvas" EditingMode="Ink" MinHeight="160" MinWidth="242" Margin="10" MouseUp="grid1_MouseUp">
+                    <Image Name="tstImage0" MouseUp="grid1_MouseUp" InkCanvas.Top="10" InkCanvas.Left="10"
+                            Grid.Row="2" Grid.Column="2" Width="150" Height="150" Source="Images/jpeg.jpg" Stretch="None" >
+                    </Image>
+                    <InkCanvas.ToolTip>
+                        <ToolTip ToolTipService.InitialShowDelay="5000" Background="Yellow" Foreground="Blue" Placement="Mouse">Jpeg图像</ToolTip>
+                    </InkCanvas.ToolTip>
+                </InkCanvas>
+            </TabItem>
+            <TabItem Header="拉拉手吧">
+                <Image Name="tstImage1" InkCanvas.Top="10" InkCanvas.Left="10" Grid.Row="2" Grid.Column="2"
+                        Width="150" Height="150" Source="D:\llsh.jpg" Stretch="None" >
+                </Image>
+            </TabItem>
+            <TabItem Header="验证扩展">
+                <StackPanel>
+                    <Expander Margin="3" Padding="3" Header="扩展区域1">
+                        <Button Padding="3">隐藏按钮</Button>
+                    </Expander>
+                    <Expander Margin="3" Padding="3" Header="扩展区域2">
+                        <TextBlock TextWrapping="Wrap">
+                            试一试标题扩展区域控件
+                            <ProgressBar Height="12" Width="100" IsIndeterminate="True"></ProgressBar>
+                        </TextBlock>
+                    </Expander>
+                        <Expander Margin="3" Padding="3" Header="扩展区域3">
+                            <Slider Name="tstSlider" Orientation="Horizontal" Maximum="120" SmallChange="10" TickPlacement="BottomRight" IsSnapToTickEnabled="True"
+                                    TickFrequency="20" IsSelectionRangeEnabled="True" SelectionStart="80" SelectionEnd="110" ValueChanged="tstSlider_ValueChanged">
+                            </Slider>
+                        </Expander>
+                    </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <Grid.Background>
+            <LinearGradientBrush>
+                <LinearGradientBrush.GradientStops>
+                    <GradientStop Offset="0.00" Color="Red" />
+                    <GradientStop Offset="0.50" Color="Indigo" />
+                    <GradientStop Offset="1.00" Color="Violet" />
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+    </Grid>
+        <MediaElement Name="mySound" Margin="5" Height="30" Width="30" VerticalAlignment="Bottom" LoadedBehavior="Play">
+            <MediaElement.Triggers>
+                <EventTrigger RoutedEvent="MediaElement.Loaded">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <MediaTimeline Source="Sounds/Kalimba.mp3" Storyboard.TargetName="mySound" 
+                                                RepeatBehavior="Forever"></MediaTimeline>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </MediaElement.Triggers>
+        </MediaElement>
+        <TextBlock Name="beginWin" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Visible" Margin="20,10,0,0">输入密码:
+            <PasswordBox Name="beginPw" MinWidth="50" MaxLength="64" PasswordChar="#" PasswordChanged="beginPw_PasswordChanged"
+                          Password="0987"></PasswordBox>
+        </TextBlock>
+    </Grid>
+    
+    
+</Window>
